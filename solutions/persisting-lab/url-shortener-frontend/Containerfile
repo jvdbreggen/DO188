@@ -1,0 +1,29 @@
+FROM registry.access.redhat.com/ubi8/nodejs-14 AS builder
+
+# the parent image uses USER default
+
+COPY --chown=default:root . /tmp/urlshortener-ui
+
+RUN cd /tmp/urlshortener-ui && \
+    npm install && \
+    npm run build
+
+# https://github.com/sclorg/nginx-container
+FROM registry.access.redhat.com/ubi9/nginx-120:1-39
+
+ENV BACKEND_HOST="persisting-backend" \
+    BACKEND_PORT="8080"
+
+COPY nginx.conf.template /etc/nginx/conf.d/
+COPY --from=builder /tmp/urlshortener-ui/build /usr/share/nginx/html
+
+USER root
+RUN echo -n 'PEgxPkRhdGEgaW1wb3J0IGhhcyBiZWVuIHN1Y2Nlc3NmdWwhPEgxPg==' \
+    | base64 -d > /usr/share/nginx/html/test.html
+USER 1001
+
+# entrypoint ensures nginx.conf file uses env vars
+COPY entrypoint.sh .
+ENTRYPOINT ["/opt/app-root/src/entrypoint.sh"]
+
+CMD nginx -g "daemon off;"

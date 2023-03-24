@@ -1,0 +1,81 @@
+    Create two Podman networks called beeper-backend and beeper-frontend that have DNS enabled.
+
+    Create a PostgreSQL database container that matches the following criteria:
+
+        Use the registry.ocp4.example.com:8443/rhel9/postgresql-13:1 container image.
+
+        Use beeper-db for the name of the container.
+
+        Connect the container to the beeper-backend network.
+
+        Attach a new volume called beeper-data to the /var/lib/pgsql/data directory in the container.
+
+        Pass the following environment variables to the container:
+
+            Name: POSTGRESQL_USER, value: beeper
+
+            Name: POSTGRESQL_PASSWORD, value: beeper123
+
+            Name: POSTGRESQL_DATABASE, value: beeper 
+
+-------------
+
+    Create a container image for the Beeper API that matches the following criteria:
+
+        Use a multi-stage build with a builder image to compile the Java application.
+
+        The build stage should perform the following actions:
+
+            Use the container image registry.ocp4.example.com:8443/ubi8/openjdk-17:1.12 for the build stage.
+
+            Use the mvn package command to build the application. This creates a binary file called beeper-1.0.0.jar in the target directory.
+
+        Use the container image registry.ocp4.example.com:8443/ubi8/openjdk-17-runtime:1.12 for the execution stage.
+
+        Tag the image with beeper-api:v1.
+
+        Copy the binary beeper-1.0.0.jar file from the builder image.
+
+        Running the command java -jar beeper-1.0.0.jar starts the API.
+
+    Create an API container that matches the following criteria:
+
+        Use the beeper-api:v1 image that you created.
+
+        Use beeper-api for the name of the container.
+
+        Pass an environment variable to the container called DB_HOST with beeper-db as the value.
+
+        Connect the container to the beeper-backend and beeper-frontend networks.
+
+    Create a container image for the Beeper UI that matches the following criteria:
+
+        Use a multi-stage build with a builder image to compile the TypeScript React application.
+
+        The build stage should perform the following actions:
+
+            Use the container image registry.ocp4.example.com:8443/ubi8/nodejs-16:1 for the build stage.
+
+            Run the command npm ci in the application directory to install production dependencies within the image.
+
+            Run the command npm run build in the application directory to build the application.
+
+            Use the compiled sources that the npm command generates in the build directory.
+
+        Use the container image registry.ocp4.example.com:8443/ubi8/nginx-118:1 for the execution stage.
+
+        Tag the image with beeper-ui:v1.
+
+    Create a UI container that matches the following criteria:
+
+        Use the beeper-ui:v1 image that you created.
+
+        Use beeper-ui for the container name.
+
+        Map container port 8080 to host port 8080.
+
+        Connect the container to the beeper-frontend network.
+
+    With all three components running and configured correctly, the UI is available at http://localhost:8080.
+
+        Click New Beep to create a new message that is persisted even after restarting or recreating the containers.

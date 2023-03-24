@@ -1,0 +1,27 @@
+[
+  {
+      "id": 1,
+      "quote": "I live my daydreams in music.",
+      "author": "Albert Einstein"
+  },
+  {
+      "id": 2,
+      "quote": "The best way to predict the future is to create it.",
+      "author": "Abraham Lincoln"
+  },
+  {
+      "id": 3,
+      "quote": "Happiness never decreases by being shared.",
+      "author": "Lord Buddha"
+  },
+  {
+      "id": 4,
+      "quote": "Life is a festival only to the wise.",
+      "author": "Ralph Waldo Emerson"
+  },
+  {
+      "id": 5,
+      "quote": "The mind is not a vessel to be filled but a fire to be kindled.",
+      "author": "Plutarch"
+  }
+]

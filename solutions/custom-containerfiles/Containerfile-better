@@ -1,0 +1,10 @@
+FROM registry.ocp4.example.com:8443/ubi8/ubi:8.6
+
+WORKDIR /tmp/hello-server
+
+COPY . .
+
+RUN dnf install -y nodejs && \
+    npm install
+
+CMD npm start

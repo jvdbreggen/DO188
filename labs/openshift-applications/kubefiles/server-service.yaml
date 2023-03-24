@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-server-svc
+spec:
+  selector:
+    run: hello-server
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000

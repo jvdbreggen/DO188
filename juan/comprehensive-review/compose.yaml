@@ -1,0 +1,37 @@
+services:
+  beeper-db:
+    image: "registry.ocp4.example.com:8443/rhel9/postgresql-13:1"
+    container_name: "beeper-db"
+    environment:
+      POSTGRESQL_USER: "beeper"
+      POSTGRESQL_PASSWORD: "beeper123"
+      POSTGRESQL_DATABASE: "beeper"
+    networks:
+      - beeper-backend
+    volumes:
+      - beeper-data:/var/lib/pgsql/data
+  beeper-api:
+    image: "beeper-api:v1"
+    container_name: "beeper-api"
+    environment:
+      DB_HOST: "beeper-db"
+    networks:
+      - beeper-frontend
+      - beeper-backend
+    depends_on:
+      - beeper-db
+  beeper-ui:
+    image: "beeper-ui:v1"
+    container_name: "beeper-ui"
+    ports: "8080:8080"
+    networks:
+      - beeper-frontend
+    depends_on:
+      - beeper-api
+
+volumes:
+  beeper-data: {}
+
+networks:
+  beeper-frontend: {}
+  beeper-backend: {}

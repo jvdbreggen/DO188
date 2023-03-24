@@ -1,0 +1,17 @@
+FROM registry.access.redhat.com/ubi8/ubi-minimal:8.5
+
+RUN microdnf install -y --disableplugin=subscription-manager --nodocs nginx \
+  && microdnf clean all
+
+ADD index.html /usr/share/nginx/html
+
+ADD nginx.conf /etc/nginx/nginx.conf
+
+RUN touch /run/nginx.pid \
+  && chgrp -R 0 /var/log/nginx /run/nginx.pid \
+  && chmod -R g+rwx /var/log/nginx /run/nginx.pid
+
+EXPOSE 8080
+USER 1001
+
+CMD nginx -g "daemon off;"

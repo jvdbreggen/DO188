@@ -1,0 +1,8 @@
+- automation: "Turn garage lights ON when presence detected"
+  wait_for_trigger:
+    - platform: event
+      event_type: PRESENCE_DETECTED
+    - platform: state
+      device_id: 1
+      to: "on"
+      for: 60

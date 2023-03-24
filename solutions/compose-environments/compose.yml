@@ -1,0 +1,24 @@
+services:
+  db-admin:
+    image: "registry.ocp4.example.com:8443/crunchydata/crunchy-pgadmin4:ubi8-4.30-1"
+    container_name: "compose_environments_pgadmin"
+    environment:
+      PGADMIN_SETUP_EMAIL: user@redhat.com
+      PGADMIN_SETUP_PASSWORD: redhat
+    ports:
+      - "5050:5050"
+  db:
+    image: "registry.ocp4.example.com:8443/rhel9/postgresql-13:1"
+    container_name: "compose_environments_postgresql"
+    environment:
+      POSTGRESQL_USER: backend
+      POSTGRESQL_DATABASE: rpi-store
+      POSTGRESQL_PASSWORD: redhat
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database_scripts:/opt/app-root/src/postgresql-start:Z
+      - rpi:/var/lib/pgsql/data
+volumes:
+  rpi: {}
+

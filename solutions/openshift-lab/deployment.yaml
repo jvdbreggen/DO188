@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: quotes-api
+  name: quotes-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quotes-api
+  template:
+    metadata:
+      labels:
+        app: quotes-api
+    spec:
+      containers:
+      - image: registry.ocp4.example.com:8443/redhattraining/podman-quotes-api:openshift
+        name: podman-quotes-api

@@ -1,0 +1,6 @@
+FROM registry.access.redhat.com/ubi8/nodejs-16
+
+ADD . .
+RUN npm ci --production
+
+CMD ["npm", "start"]

@@ -1,0 +1,5 @@
+FROM registry.redhat.io/rhel8/python-38:1-94
+
+COPY main.py .
+
+CMD python3 main.py

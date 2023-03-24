@@ -1,0 +1,7 @@
+FROM registry.access.redhat.com/ubi8/ubi-micro
+
+RUN echo "TWFzdGVyaW5nIGNvbnRhaW5lcnMgc3RlcCBieSBzdGVw" \
+  | base64 -d > /etc/secret-file && \
+  echo >> /etc/secret-file
+
+CMD [ "sleep", "infinity" ] 

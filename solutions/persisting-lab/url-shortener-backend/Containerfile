@@ -1,0 +1,10 @@
+FROM registry.access.redhat.com/ubi8/nodejs-14
+ENV HTTP_PORT=8080 \
+    DB_NAME='db' \
+    USER_NAME='user' \
+    PASSWORD='pass' \
+    API_HOST='localhost'
+# the parent image uses USER default
+COPY --chown=default:root . .
+RUN npm install
+ENTRYPOINT npm start

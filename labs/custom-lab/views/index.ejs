@@ -1,0 +1,43 @@
+<html lang="en">
+  <head>
+    <title>QR Code Generator</title>
+    <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/css/patternfly.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/css/patternfly-additions.min.css"
+    />
+    <style>
+      body {
+        margin: 10px;
+        padding: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1 class="text-center">TEXT TO QR CODE CONVERTOR</h1>
+    </div>
+    <p>Type the text below and click convert!</p>
+    <form class="form" action="/convert" method="POST">
+      <input
+        name="textInput"
+        class="pf-c-form-control"
+        placeholder="Text"
+        type="text"
+        required
+      />
+      <br />
+      <br />
+      <button type="submit" class="btn btn-primary" value="Get QR">
+        Convert
+      </button>
+    </form>
+  </body>
+</html>

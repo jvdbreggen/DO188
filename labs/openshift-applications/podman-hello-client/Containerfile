@@ -1,0 +1,28 @@
+FROM registry.access.redhat.com/ubi8/ubi-minimal:8.6
+
+ARG PROTO="http" \
+    URL="hello-server-svc" \
+    PORT="3000" \
+    ENDPOINT="greet"
+
+ENV PROTO=${PROTO} \
+    URL=${URL} \
+    PORT=${PORT} \
+    ENDPOINT=${ENDPOINT}
+
+# Install useradd and create the user
+RUN microdnf install shadow-utils && \
+    useradd \
+        --system \
+        --shell "/bin/bash" \
+        client && \
+    microdnf clean all && \
+    rm --recursive --force /var/cache/yum
+
+WORKDIR /tmp
+
+COPY client.sh .
+RUN chmod +x ./client.sh
+USER client
+
+CMD ["./client.sh"]

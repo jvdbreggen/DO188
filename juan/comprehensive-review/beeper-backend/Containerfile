@@ -1,0 +1,7 @@
+FROM registry.ocp4.example.com:8443/ubi8/openjdk-17:1.12 AS builder
+COPY . .
+RUN mvn package
+
+FROM registry.ocp4.example.com:8443/ubi8/openjdk-17-runtime:1.12
+COPY --from=builder /home/jboss/target/beeper-1.0.0.jar .
+ENTRYPOINT java -jar beeper-1.0.0.jar

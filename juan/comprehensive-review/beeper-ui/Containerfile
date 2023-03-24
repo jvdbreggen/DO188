@@ -1,0 +1,11 @@
+FROM registry.ocp4.example.com:8443/ubi8/nodejs-16:1 AS builder
+USER root
+COPY . .
+RUN npm ci && \
+     npm run build
+
+FROM registry.ocp4.example.com:8443/ubi8/nginx-118:1
+COPY nginx.conf /etc/nginx/
+COPY --from=builder /opt/app-root/src/build /usr/share/nginx/html
+EXPOSE 8080
+CMD nginx -g "daemon off;"

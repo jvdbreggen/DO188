@@ -1,0 +1,15 @@
+FROM registry.ocp4.example.com:8443/ubi8/nodejs-16
+
+# WORKDIR /opt/app-root/src
+
+EXPOSE 8080
+EXPOSE 9229
+
+COPY . .
+
+USER root
+RUN npm install
+USER default
+
+CMD npm start
+# CMD npm run debug

@@ -1,0 +1,11 @@
+FROM registry.access.redhat.com/ubi8/go-toolset:1.17.7 as build
+WORKDIR /app
+USER root
+COPY app .
+RUN go build
+
+FROM registry.access.redhat.com/ubi8/ubi-minimal:8.5
+WORKDIR /app
+COPY --from=build /app/times-app .
+EXPOSE 8080
+ENTRYPOINT ["/app/times-app"]
